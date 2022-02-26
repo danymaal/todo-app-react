@@ -4,8 +4,8 @@ import TodoItem from './TodoItem';
 const TodoList = (props) => {
   return (
     <ul>
-      {props.todo.map((todo) => (
-        <TodoItem todo={todo} key={todo.id} onChange={props.onToggle}  />
+      {props.todo.map((todo, idx) => (
+        <TodoItem todo={todo} key={todo.id} idx = {idx} onChange={props.onToggle}  />
       ))}
     </ul>
   );

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import '../components/scss/TodoItem.scss';
 import Context from '../context';
 
-const TodoItem = ({ todo, onChange }) => {
+const TodoItem = ({ todo, onChange, idx }) => {
   const { removeTodo } = useContext(Context);
 
   const classes = [];
@@ -15,12 +15,13 @@ const TodoItem = ({ todo, onChange }) => {
     <li className="todo">
       <span className={classes.join(' ')}>
         <input className="todo__input" type="checkbox" onChange={() => onChange(todo.id)} />
-        <strong>{todo.id}</strong>
+        <strong>{idx + 1}</strong>
         &nbsp;
         {todo.title}
       </span>
       <button className="todo__button" onClick={() => removeTodo(todo.id)}>
-        &#10005;
+        {/* &#10005; */}
+        Delete
       </button>
       {/* Функция удаления принимает в себя айди поэтому мы можем вызвать колбэк () => removeTodo(todo.id)  */}
     </li>
