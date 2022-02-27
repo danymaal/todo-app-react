@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import Context from './context';
+import Loader from './Loader';
 
 import './index.scss';
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, checked: false, title: 'Buy some bread' },
-    { id: 2, checked: false, title: 'Buy some milk' },
-    { id: 3, checked: false, title: 'Buy some mustard' },
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      .then((response) => response.json())
+      .then((todos) => {
+        setTimeout(() => {
+          setTodos(todos);
+          setLoading(false);
+        }, 2000);
+      });
+  }, []);
+  // Вторым параметром передаем массив - список завсисимостей, которые будут служить для того, чтобы отрабатовать данному колбэку. Но учитывая, что мы хотим, чтобы он сработал сразу, мы передаем пустой массив
 
   const toggleTodo = (id) => {
     console.log(id);
@@ -37,7 +48,12 @@ function App() {
       <div className="wrapper">
         <h1 className="heading">TO-DO list</h1>
         <AddTodo onCreate={addTodo} />
-        {todos.length ? <TodoList todo={todos} onToggle={toggleTodo} />: 'No todos yet'}
+        {loading && <Loader />}
+        {todos.length ? (
+          <TodoList todo={todos} onToggle={toggleTodo} />
+        ) : loading ? null : (
+          <h2 className="no-todos">No todos</h2>
+        )}
       </div>
     </Context.Provider>
   );

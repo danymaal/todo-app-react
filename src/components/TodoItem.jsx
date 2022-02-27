@@ -14,7 +14,7 @@ const TodoItem = ({ todo, onChange, idx }) => {
   return (
     <li className="todo">
       <span className={classes.join(' ')}>
-        <input className="todo__input" type="checkbox" onChange={() => onChange(todo.id)} />
+        <input className="todo__input" type="checkbox" onChange={() => onChange(todo.id)} checked ={todo.completed} />
         <strong>{idx + 1}</strong>
         &nbsp;
         {todo.title}
