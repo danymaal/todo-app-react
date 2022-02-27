@@ -37,7 +37,7 @@ function App() {
       <div className="wrapper">
         <h1 className="heading">TO-DO list</h1>
         <AddTodo onCreate={addTodo} />
-        <TodoList todo={todos} onToggle={toggleTodo} />
+        {todos.length ? <TodoList todo={todos} onToggle={toggleTodo} />: 'No todos yet'}
       </div>
     </Context.Provider>
   );

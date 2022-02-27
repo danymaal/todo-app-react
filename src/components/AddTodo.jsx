@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
 import './scss/AddTodo.scss';
 
+// Custom hook
+function useInputValue(defaultValue = '') {
+  const [value, setValue] = useState(defaultValue);
+
+  return {
+    bind: {
+      value,
+      onChange: (event) => setValue(event.target.value),
+    },
+    clear: () => setValue(''),
+    value: () => value,
+  };
+}
+
 const AddTodo = ({ onCreate }) => {
-  const [inputData, setInputData] = useState('');
+  const input = useInputValue('');
+
+  //   const [inputData, setInputData] = useState('');
 
   const submited = (e) => {
     e.preventDefault();
 
-    if (inputData.trim()) {
-      onCreate(inputData);
+    // Default method
+    // if (inputData.trim()) {
+    //   onCreate(inputData);
+    //   setInputData(' ');
+    // }
 
-      setInputData(' ');
+    // For custom hook
+    if (input.value().trim()) {
+      onCreate(input.value());
+      input.clear();
+      // setInputData(' ');
     }
   };
   return (
@@ -18,8 +41,9 @@ const AddTodo = ({ onCreate }) => {
       <input
         className="form__input"
         placeholder="Enter a todo"
-        value={inputData}
-        onChange={(event) => setInputData(event.target.value)}
+        // value={inputData}
+        // onChange={(event) => setInputData(event.target.value)}
+        {...input.bind}
       />
       <button className="form__button">Add</button>
     </form>
